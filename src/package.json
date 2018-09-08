@@ -1,0 +1,13 @@
+{
+  "name": "Demo",
+  "main": "index.html",
+  "window": {
+    "title": "gmail注册",
+    "width": 1280,
+    "height": 900,
+    "toolbar": true
+  },
+  "webkit": {
+    "plugin": true
+  }
+}
