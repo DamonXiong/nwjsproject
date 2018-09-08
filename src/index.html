@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style type="text/css">
+    .file-box {
+      position: relative;
+      width: 340px
+    }
+
+    .txt {
+      height: 22px;
+      border: 1px solid #cdcdcd;
+      width: 280px;
+    }
+
+    .btn {
+      background-color: #FFF;
+      border: 1px solid #CDCDCD;
+      height: 24px;
+      width: 70px;
+    }
+
+    .btn:hover {
+      background-color: #cdcdcd;
+    }
+  </style>
+
+</head>
+
+<body>
+  <input type='button' id='start_btn' onclick="start();" value='开始' />
+  <input type='text' id='index' value='研究间6' style='text-align:center' />
+  <input type='date' id='bookdate' style='text-align:center' />
+  <input type='button' onclick="stop();" value='暂停' />
+  <input type='button' onclick="login();" value='返回登陆' />
+  <div>
+    <div id='importData' style="float:left">
+      <iframe id='hearthstone' name='hearthstone' src='' width='1200' height='760'></iframe>
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="js/jquery.js" charset="utf-8" type="text/javascript"></script>
+<script src="js/indexdb.js" charset="utf-8" type="text/javascript"></script>
+<script src="js/form.js" charset="utf-8" type="text/javascript"></script>
