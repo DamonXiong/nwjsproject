@@ -1,0 +1,13 @@
+{
+  "name": "Demo",
+  "main": "index.html",
+  "window": {
+    "title": "雅思查询",
+    "width": 1280,
+    "height": 900,
+    "toolbar": true
+  },
+  "webkit": {
+    "plugin": true
+  }
+}
