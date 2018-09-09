@@ -8,6 +8,7 @@ var regUrl, logoutUrl
 var bookdate = document.getElementById('bookdate')
 var start_btn = document.getElementById('start_btn')
 var roomname = document.getElementById('index')
+var refresh_time = document.getElementById('refreshtime')
 initSrc()
 
 function initSrc () {
@@ -39,6 +40,8 @@ function initSrc () {
 
 function start () {
   start_btn.disabled = true
+  refresh_time.disabled = true
+  var intervaltime = parseInt(refresh_time.value)
   id = setInterval(function () {
     var title = iframe.contentDocument.title
 
@@ -105,13 +108,14 @@ function start () {
         roomtitle.click()
       }
     }
-  }, 3000)
+  }, intervaltime * 1000)
 }
 
 function stop () {
   var iframe = document.getElementById('hearthstone')
   clearInterval(id)
   start_btn.disabled = false
+  refresh_time.disabled = false
 }
 
 function login () {
