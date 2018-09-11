@@ -35,7 +35,7 @@
   <label for="bookdate">预定时间:</label>
   <input type='date' id='bookdate' style='text-align:center' />
   <label for="refreshtime">刷新频率:</label>
-  <input type='text' id='refreshtime' value="3" style='text-align:center' onKeyUp="this.value=this.value.replace(/[^\.\d]/g,'');this.value=this.value.replace('.','');" />秒
+  <input type='text' id='refreshtime' value="500" style='text-align:center' onKeyUp="this.value=this.value.replace(/[^\.\d]/g,'');this.value=this.value.replace('.','');" />毫秒
   <input type='button' id='start_btn' onclick="start();" value='开始' />
   <input type='button' onclick="stop();" value='停止' />
   <input type='button' onclick="login();" value='返回登陆' />

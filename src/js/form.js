@@ -42,6 +42,7 @@ function start () {
   start_btn.disabled = true
   refresh_time.disabled = true
   var intervaltime = parseInt(refresh_time.value)
+  var isCofirmBook = false
   id = setInterval(function () {
     var title = iframe.contentDocument.title
 
@@ -54,21 +55,44 @@ function start () {
       var endTime = iframe.contentDocument.getElementsByName('end_time')[2]
       var roomtitle = iframe.contentDocument.getElementsByClassName('it')[0]
       var nextWeek = iframe.contentDocument.getElementsByClassName('cld-bt-next')[0]
+      var confirmDlgClose = iframe.contentDocument.getElementsByClassName('ui-dialog-titlebar-close')[0]
+      var confirmOKDlg = iframe.contentDocument.getElementById('uni_confirm')
+      var userCenter = iframe.contentDocument.getElementById('user_center')
+      var confirmOKDlgClose = iframe.contentDocument.getElementsByClassName('ui-dialog-titlebar-close')[0]
 
-      if (confirmDialog && confirmDialog.style['display'] == 'block') {
-        startTime.selectedIndex = 0
-        endTime.selectedIndex = 78
-        var change = document.createEvent('MouseEvents'); // 创建事件对象              
-        change.initEvent('change', true, true); // 初始化事件对象initMouseEvent需要更多参数
-        endTime[2].dispatchEvent(change); // 触发事件
-        btnConfirm.click()
+      if (confirmOKDlg && confirmOKDlg.style['display'] == 'block') {
+        clearInterval(id)
+        confirmOKDlgClose.click()
+        start_btn.disabled = false
+        refresh_time.disabled = false
+        userCenter.click()
+      } else if (confirmDialog && confirmDialog.style['display'] == 'block') {
+        if (isCofirmBook === false) {
+          startTime.selectedIndex = 0
+          endTime.selectedIndex = 78
+          var change = document.createEvent('MouseEvents'); // 创建事件对象              
+          change.initEvent('change', true, true); // 初始化事件对象initMouseEvent需要更多参数
+          endTime[2].dispatchEvent(change); // 触发事件
+          btnConfirm.click()
+          isCofirmBook = true
+        } else {
+          confirmDlgClose.click()
+          isCofirmBook = false
+          changeUnBookRoom()
+        }
       } else if (listDiv && listHeader) {
         var isSelectedHeader = false
         var selectedHead = null
+        var tmpHead = null
         for (var i = 0; i < listHeader.childNodes.length; i++) {
           if (listHeader.childNodes[i].getAttribute('date') == bookdate.value) {
             selectedHead = listHeader.childNodes[i]
             if (selectedHead.getAttribute('class').indexOf('cld-d-sel') !== -1) {
+              if (i === 0 || i === (listHeader.childNodes.length - 4)) {
+                tmpHead = listHeader.childNodes[2]
+              } else {
+                tmpHead = listHeader.childNodes[i + 1]
+              }
               isSelectedHeader = true
             }
           }
@@ -88,7 +112,7 @@ function start () {
                 emouseup.initEvent('mouseup', true, true); // 初始化事件对象initMouseEvent需要更多参数
                 time.dispatchEvent(emouseup); // 触发事件
               } else {
-                roomtitle.click()
+                tmpHead.click()
               }
             }
           }
@@ -108,7 +132,10 @@ function start () {
         roomtitle.click()
       }
     }
-  }, intervaltime * 1000)
+  }, intervaltime)
+}
+
+function changeUnBookRoom () {
 }
 
 function stop () {
