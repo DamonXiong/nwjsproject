@@ -34,11 +34,19 @@
   <input type='text' id='index' value='研究间17' style='text-align:center' />
   <label for="bookdate">预定时间:</label>
   <input type='date' id='bookdate' style='text-align:center' />
+  <label for="startbook">启动时间:</label>
+  <input type='time' id='startbook' style='text-align:center' />
   <label for="refreshtime">刷新频率:</label>
   <input type='text' id='refreshtime' value="500" style='text-align:center' onKeyUp="this.value=this.value.replace(/[^\.\d]/g,'');this.value=this.value.replace('.','');" />毫秒
-  <input type='button' id='start_btn' onclick="start();" value='开始' />
-  <input type='button' onclick="stop();" value='停止' />
-  <input type='button' onclick="login();" value='返回登陆' />
+  <div>
+    <label for="loginname">用户名:</label>
+    <input type='text' id='loginname' style='text-align:center' />
+    <label for="loginpassword">密码:</label>
+    <input type='password' id='loginpassword' style='text-align:center' />
+    <input type='button' id='start_btn' onclick="start();" value='开始' />
+    <input type='button' onclick="stop();" value='停止' />
+    <input type='button' onclick="login();" value='返回登陆' />
+  </div>
   <div>
     <div id='importData' style="float:left">
       <iframe id='hearthstone' name='hearthstone' src='' width='1200' height='760'></iframe>

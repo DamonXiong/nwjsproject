@@ -6,29 +6,33 @@ var gui = require('nw.gui')
 var win = gui.Window.get()
 var regUrl, logoutUrl
 var bookdate = document.getElementById('bookdate')
+var startbook = document.getElementById('startbook')
 var start_btn = document.getElementById('start_btn')
 var roomname = document.getElementById('index')
 var refresh_time = document.getElementById('refreshtime')
+var login_name = document.getElementById('loginname')
+var login_pwd = document.getElementById('loginpassword')
+
+Date.prototype.Format = function (fmt) {
+  var o = {
+    'M+': this.getMonth() + 1,
+    'd+': this.getDate(),
+    'h+': this.getHours(),
+    'm+': this.getMinutes(),
+    's+': this.getSeconds(),
+    'q+': Math.floor((this.getMonth() + 3) / 3),
+    'S': this.getMilliseconds()
+  }
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
+  for (var k in o)
+    if (new RegExp('(' + k + ')').test(fmt))
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+  return fmt
+}
 initSrc()
 
 function initSrc () {
-  Date.prototype.Format = function (fmt) {
-    var o = {
-      'M+': this.getMonth() + 1,
-      'd+': this.getDate(),
-      'h+': this.getHours(),
-      'm+': this.getMinutes(),
-      's+': this.getSeconds(),
-      'q+': Math.floor((this.getMonth() + 3) / 3),
-      'S': this.getMilliseconds()
-    }
-    if (/(y+)/.test(fmt))
-      fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
-    for (var k in o)
-      if (new RegExp('(' + k + ')').test(fmt))
-        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
-    return fmt
-  }
   regUrl = 'http://seatlib.fjtcm.edu.cn'
   logoutUrl = 'http://seatlib.fjtcm.edu.cn'
   smsUrl = 'http://47.106.141.142:9180/service.asmx'
@@ -36,6 +40,11 @@ function initSrc () {
   var date = new Date()
   date.setDate(date.getDate() + 2)
   bookdate.value = date.Format('yyyy-MM-dd')
+  date.setHours(23)
+  date.setMinutes(55)
+  startbook.value = date.Format('hh:mm')
+  login_name.value = localStorage.getItem('bookroom_loginuser')
+  login_pwd.value = localStorage.getItem('bookroom_loginpwd')
 }
 
 function start () {
@@ -43,8 +52,25 @@ function start () {
   refresh_time.disabled = true
   var intervaltime = parseInt(refresh_time.value)
   var isCofirmBook = false
+  var isStartBook = false
+  localStorage.setItem('bookroom_loginuser', login_name.value)
+  localStorage.setItem('bookroom_loginpwd', login_pwd.value)
   id = setInterval(function () {
     var title = iframe.contentDocument.title
+
+    // 是否达到启动时间
+    var localtime = new Date()
+    var cmptime = startbook.value.split(':')
+    if (isStartBook === false && !((localtime.getHours() > cmptime[0]) || (localtime.getHours() == cmptime[0] && localtime.getMinutes() >= cmptime[1]))) {
+      isStartBook = false
+      return
+    }
+
+    if (isStartBook === false) {
+      isStartBook = true
+      iframe.contentDocument.location.reload(true)
+      return
+    }
 
     if (title == 'IC空间管理系统') {
       var listDiv = iframe.contentDocument.getElementsByClassName('cld-list-qzs')[0]
@@ -60,7 +86,14 @@ function start () {
       var userCenter = iframe.contentDocument.getElementById('user_center')
       var confirmOKDlgClose = iframe.contentDocument.getElementsByClassName('ui-dialog-titlebar-close')[0]
 
-      if (confirmOKDlg && confirmOKDlg.style['display'] == 'block') {
+      var username = iframe.contentDocument.getElementById('username')
+      var password = iframe.contentDocument.getElementById('password')
+
+      if (username && password) {
+        username.value = login_name.value
+        password.value = login_pwd.value
+        iframe.contentDocument.getElementsByClassName('btn-success')[0].click()
+      } else if (confirmOKDlg && confirmOKDlg.style['display'] == 'block') {
         clearInterval(id)
         confirmOKDlgClose.click()
         start_btn.disabled = false
