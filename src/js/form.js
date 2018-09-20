@@ -41,7 +41,7 @@ function initSrc () {
   date.setDate(date.getDate() + 2)
   bookdate.value = date.Format('yyyy-MM-dd')
   date.setHours(23)
-  date.setMinutes(55)
+  date.setMinutes(58)
   startbook.value = date.Format('hh:mm')
   login_name.value = localStorage.getItem('bookroom_loginuser')
   login_pwd.value = localStorage.getItem('bookroom_loginpwd')
