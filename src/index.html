@@ -31,7 +31,7 @@
 
 <body>
   <label for="index">预定房间:</label>
-  <input type='text' id='index' value='研究间17' style='text-align:center' />
+  <input type='text' id='index' value='研究间17' required='required' style='text-align:center' />
   <label for="bookdate">预定时间:</label>
   <input type='date' id='bookdate' style='text-align:center' />
   <label for="startbook">启动时间:</label>
@@ -43,7 +43,7 @@
     <input type='text' id='loginname' style='text-align:center' />
     <label for="loginpassword">密码:</label>
     <input type='password' id='loginpassword' style='text-align:center' />
-    <input type='button' id='start_btn' onclick="start();" value='开始' />
+    <input type='submit' id='start_btn' onclick="start();" value='开始' />
     <input type='button' onclick="stop();" value='停止' />
     <input type='button' onclick="login();" value='返回登陆' />
   </div>

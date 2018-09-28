@@ -42,22 +42,30 @@ function initSrc () {
   bookdate.value = date.Format('yyyy-MM-dd')
   date.setHours(23)
   date.setMinutes(58)
+  roomname.value = localStorage.getItem('bookroom_roomname')
   startbook.value = date.Format('hh:mm')
   login_name.value = localStorage.getItem('bookroom_loginuser')
   login_pwd.value = localStorage.getItem('bookroom_loginpwd')
 }
 
 function start () {
+  var input = /^[\s]*$/
+  if (input.test(roomname.value)) {
+    alert('预定房间不能为空，请输入"预定房间*"')
+    return false
+  }
   start_btn.disabled = true
   refresh_time.disabled = true
   var intervaltime = parseInt(refresh_time.value)
   var isCofirmBook = false
   var isStartBook = false
+
   localStorage.setItem('bookroom_loginuser', login_name.value)
   localStorage.setItem('bookroom_loginpwd', login_pwd.value)
   id = setInterval(function () {
     var title = iframe.contentDocument.title
 
+    localStorage.setItem('bookroom_roomname', roomname.value)
     // 是否达到启动时间
     var localtime = new Date()
     var cmptime = startbook.value.split(':')
@@ -121,8 +129,10 @@ function start () {
           if (listHeader.childNodes[i].getAttribute('date') == bookdate.value) {
             selectedHead = listHeader.childNodes[i]
             if (selectedHead.getAttribute('class').indexOf('cld-d-sel') !== -1) {
-              if (i === 0 || i === (listHeader.childNodes.length - 4)) {
+              if (i === 0) {
                 tmpHead = listHeader.childNodes[2]
+              } else if (i === (listHeader.childNodes.length - 4)) {
+                tmpHead = listHeader.childNodes[i - 1]
               } else {
                 tmpHead = listHeader.childNodes[i + 1]
               }
