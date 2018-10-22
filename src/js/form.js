@@ -46,6 +46,7 @@ function initSrc () {
   startbook.value = date.Format('hh:mm')
   login_name.value = localStorage.getItem('bookroom_loginuser')
   login_pwd.value = localStorage.getItem('bookroom_loginpwd')
+  start();
 }
 
 function start () {
@@ -110,10 +111,11 @@ function start () {
       } else if (confirmDialog && confirmDialog.style['display'] == 'block') {
         if (isCofirmBook === false) {
           startTime.selectedIndex = 0
-          endTime.selectedIndex = 78
           var change = document.createEvent('MouseEvents'); // 创建事件对象              
           change.initEvent('change', true, true); // 初始化事件对象initMouseEvent需要更多参数
-          endTime[2].dispatchEvent(change); // 触发事件
+          startTime.dispatchEvent(change);
+          endTime.selectedIndex = endTime.options.length - 1;
+          endTime.dispatchEvent(change); // 触发事件
           btnConfirm.click()
           isCofirmBook = true
         } else {
